@@ -12,3 +12,15 @@ java {
         languageVersion.set(JavaLanguageVersion.of(17))
     }
 }
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation('org.junit.jupiter:junit-jupiter:5.8.1')
+}
+
+test {
+    useJUnitPlatform()
+}

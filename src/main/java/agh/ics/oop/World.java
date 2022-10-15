@@ -6,6 +6,23 @@ public class World {
         Direction directions[] = convert(args);
         run(directions);
         System.out.println("System zakończył działanie");
+        Vector2d position1 = new Vector2d(1, 2);
+        System.out.println(position1);
+        Vector2d position2 = new Vector2d(-2, 1);
+        System.out.println(position2);
+        System.out.println(position1.add(position2));
+
+        MapDirection d = MapDirection.NORTH;
+
+        for (int i = 0; i < 4; ++i) {
+            System.out.println(d.toString() + d.toUnitVector());
+            d = d.next();
+        }
+
+        for (int i = 0; i < 4; ++i) {
+            System.out.println(d.toString() + d.toUnitVector());
+            d = d.previous();
+        }
     }
 
     static void run(Direction[] directions) {
