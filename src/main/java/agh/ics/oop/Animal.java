@@ -1,5 +1,14 @@
 package agh.ics.oop;
 
+/*
+Aby upewnić się, że każdy zwierzak znajduje się na innym polu,
+można by zastosować dwuwymiarową tablicę typu bool reprezentującą naszą planszę i
+zmienić metodę move dla klasy Animal tak, aby uniemożliwiała ruch na zajęte już pole
+oraz modyfikowała wartość tablicy na true kiedy zwierzak stanie na pozycji oraz na false, kiedy
+zwierzak pozycję opuści. Pozostaje tylko rozwiązać problem globalnego dostępu każdego obiektu
+klasy Animal do tej samej tablicy - można to rozwiązać np. dodając atrybut private bool[] isTaken do klasy Animal,
+a tablicę stworzyć podczas wykonywania programu i przekazać ją przez referencję każdemu zwierzęciu.
+ */
 public class Animal {
 
     private Vector2d position;
