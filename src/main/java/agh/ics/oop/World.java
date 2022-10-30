@@ -1,16 +1,16 @@
 package agh.ics.oop;
 
+import java.util.Arrays;
+
 public class World {
     public static void main(String[] args) {
-        Animal a = new Animal();
-        MoveDirection[] moves = OptionsParser.parse(args);
-
-        for (int i = 0; i < moves.length; ++i) {
-            a.move(moves[i]);
-        }
-
-        System.out.println(a);
-
+        MoveDirection[] directions = OptionsParser.parse(args);
+        IWorldMap map = new RectangularMap(10, 5);
+        Vector2d[] positions = { new Vector2d(2,2), new Vector2d(3,4) };
+        IEngine engine = new SimulationEngine(directions, map, positions);
+        engine.run();
+        System.out.println(Arrays.toString(positions));
+        System.out.println(map.toString());
     }
 
 }

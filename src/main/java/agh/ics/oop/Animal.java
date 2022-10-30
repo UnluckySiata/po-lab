@@ -1,22 +1,21 @@
 package agh.ics.oop;
 
-/*
-Aby upewnić się, że każdy zwierzak znajduje się na innym polu,
-można by zastosować dwuwymiarową tablicę typu bool reprezentującą naszą planszę i
-zmienić metodę move dla klasy Animal tak, aby uniemożliwiała ruch na zajęte już pole
-oraz modyfikowała wartość tablicy na true kiedy zwierzak stanie na pozycji oraz na false, kiedy
-zwierzak pozycję opuści. Pozostaje tylko rozwiązać problem globalnego dostępu każdego obiektu
-klasy Animal do tej samej tablicy - można to rozwiązać np. dodając atrybut private bool[] isTaken do klasy Animal,
-a tablicę stworzyć podczas wykonywania programu i przekazać ją przez referencję każdemu zwierzęciu.
- */
 public class Animal {
 
     private Vector2d position;
     private MapDirection orientation;
+    private IWorldMap map;
 
-    public Animal() {
+    public Animal(IWorldMap map) {
         position = new Vector2d(2, 2);
         orientation = MapDirection.NORTH;
+        this.map = map;
+    }
+
+    public Animal(IWorldMap map, Vector2d initialPosition) {
+        position = initialPosition;
+        orientation = MapDirection.NORTH;
+        this.map = map;
     }
 
     public boolean isAt(Vector2d position) {
@@ -38,7 +37,6 @@ public class Animal {
                 break;
 
             case FORWARD:
-
                 switch (this.orientation) {
                     case NORTH:
                         deltaY = 1;
@@ -57,7 +55,6 @@ public class Animal {
                 break;
 
             case BACKWARD:
-
                 switch (this.orientation) {
                     case NORTH:
                         deltaY = -1;
@@ -76,22 +73,28 @@ public class Animal {
                 break;
         }
 
-        if (deltaX != 0 && this.position.x + deltaX >= 0 && this.position.x + deltaX <= 4) {
-            this.position = this.position.add(new Vector2d(deltaX, 0));
-        }
+        Vector2d newPosition = this.position.add(new Vector2d(deltaX, deltaY));
 
-        if (deltaY != 0 && this.position.y + deltaY >= 0 && this.position.y + deltaY <= 4) {
-            this.position = this.position.add(new Vector2d(0, deltaY));
-        }
+        if (map.canMoveTo(newPosition)) this.position = newPosition;
 
     }
 
     @Override
     public String toString() {
-        return "Zwierzak znajduje się na pozycji: " + this.position.toString() + ", a jego orientacja to: " + this.orientation.toString() + ".";
+        //return "Zwierzak znajduje się na pozycji: " + this.position.toString() + ", a jego orientacja to: " + this.orientation.toString() + ".";
+        return switch (this.orientation) {
+            case NORTH -> "N";
+            case SOUTH -> "S";
+            case EAST -> "E";
+            case WEST -> "W";
+        };
     }
 
     public MapDirection getOrientation() {
         return orientation;
+    }
+
+    public Vector2d getPosition() {
+        return position;
     }
 }
