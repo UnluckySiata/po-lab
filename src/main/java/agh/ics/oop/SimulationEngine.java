@@ -28,6 +28,7 @@ public class SimulationEngine implements IEngine {
         for (int i = 0; i < moves.length; ++i) {
             a_i = i % positions.length;
             currA = animals.get(a_i);
+            // if isOcupied and is grass -> spawnGrass
             currA.move(moves[i]);
             positions[a_i] = currA.getPosition();
         }
