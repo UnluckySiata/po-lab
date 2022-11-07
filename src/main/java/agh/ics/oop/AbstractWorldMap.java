@@ -34,8 +34,13 @@ abstract class AbstractWorldMap implements IWorldMap {
         return result;
     }
 
+    public void calculateUpperRight() {
+        return;
+    }
+
     public String toString() {
         MapVisualizer map = new MapVisualizer(this);
+        this.calculateUpperRight();
         return map.draw(lowerLeft, upperRight);
     }
 }

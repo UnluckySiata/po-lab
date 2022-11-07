@@ -1,7 +1,5 @@
 package agh.ics.oop;
 
-import java.util.ArrayList;
-
 public class GrassField extends AbstractWorldMap {
 
     private int n, maxX, maxY;
@@ -44,5 +42,13 @@ public class GrassField extends AbstractWorldMap {
         return (!isOccupied(position) || this.objectAt(position) instanceof Grass);
     }
 
+    public void calculateUpperRight() {
+        for (AbstractWorldMapElement e: elements) {
+            Vector2d pos = e.getPosition();
+            maxX = Math.max(maxX, pos.x);
+            maxY = Math.max(maxY, pos.y);
+
+        }
+    }
 
 }
