@@ -1,46 +1,27 @@
 package agh.ics.oop;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 
-abstract class AbstractWorldMap implements IWorldMap {
+abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObserver {
 
-    protected ArrayList<AbstractWorldMapElement> elements = new ArrayList<>();
+    protected HashMap<Vector2d, AbstractWorldMapElement> elements = new HashMap<>();
     protected Vector2d lowerLeft, upperRight;
 
     public boolean isOccupied(Vector2d position) {
-        for (AbstractWorldMapElement e: elements) {
-            if (e.getPosition().equals(position)) return true;
-        }
-        return false;
-    }
-
-    public boolean place(Animal animal) {
-        if (canMoveTo(animal.getPosition())) {
-            elements.add(animal);
-            return true;
-
-        } else return false;
-
+        return elements.containsKey(position);
     }
 
     public Object objectAt(Vector2d position) {
-        Object result = null;
-        for (AbstractWorldMapElement e: elements) {
-            if (e.getPosition().equals(position))  {
-                result = e;
-                if (e instanceof Animal) break;
-            }
-        }
-        return result;
+        return elements.get(position);
     }
 
-    public void calculateUpperRight() {
+    public void calculateBounds() {
         return;
     }
 
     public String toString() {
         MapVisualizer map = new MapVisualizer(this);
-        this.calculateUpperRight();
+        this.calculateBounds();
         return map.draw(lowerLeft, upperRight);
     }
 }

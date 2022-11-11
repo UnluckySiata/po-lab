@@ -53,4 +53,15 @@ class RectangularMapTest {
         assert(map.canMoveTo(new Vector2d(0, 0)));
     }
 
+    @Test
+    void testChange() {
+        RectangularMap g = new RectangularMap(10, 10);
+        Vector2d v1 = new Vector2d(10, 10);
+        Vector2d v2 = new Vector2d(20, 10);
+        Animal a = new Animal(g, v1);
+        g.elements.put(a.position, a);
+        g.positionChanged(v1, v2);
+        assert(!g.canMoveTo(v1));
+        assert(!g.canMoveTo(v2));
+    }
 }
