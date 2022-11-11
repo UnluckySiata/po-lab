@@ -89,4 +89,22 @@ class GrassFieldTest {
 
     }
 
+    @Test
+    void testPlace() {
+        GrassField g = new GrassField(10);
+        Vector2d v = new Vector2d(5, 6);
+        Animal a = new Animal(g, v);
+        assert(g.place(a));
+        assert(!g.place(a));
+        assert(g.isOccupied(v));
+    }
+
+    @Test
+    void testObjectAt() {
+        GrassField g = new GrassField(10);
+        Vector2d v = new Vector2d(5, 6);
+        Animal a = new Animal(g, v);
+        g.place(a);
+        assert(a == g.objectAt(v));
+    }
 }

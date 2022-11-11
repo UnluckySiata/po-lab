@@ -55,13 +55,33 @@ class RectangularMapTest {
 
     @Test
     void testChange() {
-        RectangularMap g = new RectangularMap(10, 10);
+        RectangularMap m = new RectangularMap(10, 10);
         Vector2d v1 = new Vector2d(10, 10);
         Vector2d v2 = new Vector2d(20, 10);
-        Animal a = new Animal(g, v1);
-        g.elements.put(a.position, a);
-        g.positionChanged(v1, v2);
-        assert(!g.canMoveTo(v1));
-        assert(!g.canMoveTo(v2));
+        Animal a = new Animal(m, v1);
+        m.elements.put(a.position, a);
+        m.positionChanged(v1, v2);
+        assert(!m.canMoveTo(v1));
+        assert(!m.canMoveTo(v2));
     }
+
+    @Test
+    void testPlace() {
+        RectangularMap m = new RectangularMap(10, 10);
+        Vector2d v = new Vector2d(5, 6);
+        Animal a = new Animal(m, v);
+        assert(m.place(a));
+        assert(!m.place(a));
+        assert(m.isOccupied(v));
+    }
+
+    @Test
+    void testObjectAt() {
+        RectangularMap m = new RectangularMap(10, 10);
+        Vector2d v = new Vector2d(5, 6);
+        Animal a = new Animal(m, v);
+        m.place(a);
+        assert(a == m.objectAt(v));
+    }
+
 }
