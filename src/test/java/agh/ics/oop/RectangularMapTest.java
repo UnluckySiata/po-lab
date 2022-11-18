@@ -71,8 +71,15 @@ class RectangularMapTest {
         Vector2d v = new Vector2d(5, 6);
         Animal a = new Animal(m, v);
         assert(m.place(a));
-        assert(!m.place(a));
+        Boolean flag = false;
+        try {
+            m.place(a);
+            flag = true;
+        } catch (IllegalArgumentException ex) {
+            assertEquals(ex, "Animal couldn't be placed");
+        }
         assert(m.isOccupied(v));
+        assert(!flag);
     }
 
     @Test

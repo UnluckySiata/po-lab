@@ -94,9 +94,15 @@ class GrassFieldTest {
         GrassField g = new GrassField(10);
         Vector2d v = new Vector2d(5, 6);
         Animal a = new Animal(g, v);
-        assert(g.place(a));
-        assert(!g.place(a));
+        Boolean flag = false;
+        try {
+            g.place(a);
+            flag = true;
+        } catch (IllegalArgumentException ex) {
+            assertEquals(ex, "Animal couldn't be placed");
+        }
         assert(g.isOccupied(v));
+        assert(!flag);
     }
 
     @Test

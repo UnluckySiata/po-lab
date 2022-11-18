@@ -13,7 +13,9 @@ public class RectangularMap extends AbstractWorldMap {
             animal.addObserver(this);
             return true;
 
-        } else return false;
+        } else {
+            throw new IllegalArgumentException("Animal couldn't be placed");
+        }
 
     }
 
