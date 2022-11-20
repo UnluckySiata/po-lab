@@ -53,6 +53,7 @@ public class GrassField extends AbstractWorldMap {
                 boundedField.insert(newGrassPos);
             }
             elements.put(position, animal);
+            boundedField.insert(position);
             animal.addObserver(this);
             animal.addObserver(boundedField);
             return true;

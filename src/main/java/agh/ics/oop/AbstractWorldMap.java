@@ -2,7 +2,7 @@ package agh.ics.oop;
 
 import java.util.HashMap;
 
-abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObserver {
+public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObserver {
 
     protected HashMap<Vector2d, AbstractWorldMapElement> elements = new HashMap<>();
     protected Vector2d lowerLeft, upperRight;
@@ -17,6 +17,14 @@ abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObserver {
 
     public void calculateBounds() {
         return;
+    }
+
+    public Vector2d getLowerLeft() {
+        return lowerLeft;
+    }
+
+    public Vector2d getUpperRight() {
+        return upperRight;
     }
 
     public String toString() {

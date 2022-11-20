@@ -4,6 +4,8 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.Arrays;
+
 class GrassFieldTest {
 
     @Test
@@ -11,7 +13,7 @@ class GrassFieldTest {
 
         int initialN = 20;
         String[] args = {"f", "b", "r", "l", "f", "f", "r", "r", "f", "f", "f", "f", "f", "f", "f", "f"};
-        MoveDirection[] directions = OptionsParser.parse(args);
+        MoveDirection[] directions = OptionsParser.parse(Arrays.asList(args));
         IWorldMap map = new GrassField(initialN);
         Vector2d[] positions = { new Vector2d(2,2), new Vector2d(3,4) };
         IEngine engine = new SimulationEngine(directions, map, positions);
@@ -44,7 +46,7 @@ class GrassFieldTest {
     void testMoving2() {
         int initialN = 10;
         String[] args = {"r", "l", "r", "f", "f", "b", "r", "r", "f", "b", "b", "f", "b", "b", "f"};
-        MoveDirection[] directions = OptionsParser.parse(args);
+        MoveDirection[] directions = OptionsParser.parse(Arrays.asList(args));
         IWorldMap map = new GrassField(initialN);
         Vector2d[] positions = {new Vector2d(1, 1), new Vector2d(2, 1), new Vector2d(0, 0)};
         IEngine engine = new SimulationEngine(directions, map, positions);
@@ -95,11 +97,12 @@ class GrassFieldTest {
         Vector2d v = new Vector2d(5, 6);
         Animal a = new Animal(g, v);
         Boolean flag = false;
+        assert(g.place(a));
         try {
             g.place(a);
             flag = true;
         } catch (IllegalArgumentException ex) {
-            assertEquals(ex, "Animal couldn't be placed");
+            assertEquals(ex.getMessage(), "Animal couldn't be placed");
         }
         assert(g.isOccupied(v));
         assert(!flag);
