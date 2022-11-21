@@ -31,10 +31,10 @@ public class App extends Application {
             Vector2d lowerLeft = map.getLowerLeft();
             Vector2d upperRight = map.getUpperRight();
 
-            minC = lowerLeft.y;
-            maxC = upperRight.y;
-            minR = lowerLeft.x;
-            maxR = upperRight.x;
+            minC = lowerLeft.x;
+            maxC = upperRight.x;
+            minR = lowerLeft.y;
+            maxR = upperRight.y;
 
             ColumnConstraints colC = new ColumnConstraints(20);
             RowConstraints rowC = new RowConstraints(20);
@@ -68,7 +68,7 @@ public class App extends Application {
             for (int r = maxR; r >= minR; --r) {
                 col = 1;
                 for (int c = minC; c <= maxC; ++c) {
-                    Vector2d pos = new Vector2d(r, c);
+                    Vector2d pos = new Vector2d(c, r);
                     String text;
                     if (map.isOccupied(pos)) text = map.objectAt(pos).toString();
                     else text = "";
