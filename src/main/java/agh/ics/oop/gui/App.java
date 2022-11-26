@@ -28,7 +28,7 @@ public class App extends Application implements IGridPaneChangeObserver {
     private Button button = new Button("Start");
     private VBox vBox = new VBox(button, text);
     private HBox hBox = new HBox(grid, vBox);
-    private Scene scene = new Scene(hBox);
+    private Scene scene = new Scene(hBox, 1000, 1000);
 
     public void start(Stage primaryStage) {
 
