@@ -2,32 +2,58 @@ package agh.ics.oop.gui;
 
 import javafx.application.*;
 import javafx.geometry.HPos;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.util.Arrays;
 import java.util.List;
 
 import agh.ics.oop.*;
 
-public class App extends Application {
+public class App extends Application implements IGridPaneChangeObserver {
+    private Vector2d[] positions = { new Vector2d(2,2), new Vector2d(3,4) };
+    private AbstractWorldMap map = new GrassField(10);
+    private SimulationEngine engine;
+    private GridPane grid = new GridPane();
+    private TextField text = new TextField();
+    private Button button = new Button("Start");
+    private VBox vBox = new VBox(button, text);
+    private HBox hBox = new HBox(grid, vBox);
+    private Scene scene = new Scene(hBox);
+
     public void start(Stage primaryStage) {
 
-            List<String> args = getParameters().getRaw();
-            MoveDirection[] directions = OptionsParser.parse(args);
-            AbstractWorldMap map = new GrassField(10);
-            Vector2d[] positions = { new Vector2d(2,2), new Vector2d(3,4) };
-            IEngine engine = new SimulationEngine(directions, map, positions);
-            engine.run();
-            map.calculateBounds();
-            GridPane grid = new GridPane();
-            Scene scene = new Scene(grid, 400, 400);
+            //List<String> args = getParameters().getRaw();
+            //MoveDirection[] directions = OptionsParser.parse(args);
+            engine = new SimulationEngine(map, positions, this);
 
+            button.setOnAction(actionEvent -> {
+                MoveDirection[] directions = OptionsParser.parse(Arrays.asList(text.getText().split(" ")));
+                engine.setMoves(directions);
+                Thread engineThread = new Thread(engine);
+                engineThread.start();
+            });
+
+            vBox.setAlignment(Pos.TOP_CENTER);
+            hBox.setAlignment(Pos.CENTER);
+            drawGrid();
+            primaryStage.setScene(scene);
+            primaryStage.show();
+        }
+
+        public void drawGrid() {
             int col = 1, row = 1, minC, maxC, minR, maxR;
 
+            map.calculateBounds();
             Vector2d lowerLeft = map.getLowerLeft();
             Vector2d upperRight = map.getUpperRight();
 
@@ -36,8 +62,12 @@ public class App extends Application {
             minR = lowerLeft.y;
             maxR = upperRight.y;
 
-            ColumnConstraints colC = new ColumnConstraints(20);
-            RowConstraints rowC = new RowConstraints(20);
+            grid.getChildren().clear();
+
+            ColumnConstraints colC = new ColumnConstraints(50);
+            RowConstraints rowC = new RowConstraints(50);
+            grid.getColumnConstraints().clear();
+            grid.getRowConstraints().clear();
 
             for (int i = 0; i <= maxC - minC + 1; ++i) {
                 grid.getColumnConstraints().add(colC);
@@ -69,19 +99,29 @@ public class App extends Application {
                 col = 1;
                 for (int c = minC; c <= maxC; ++c) {
                     Vector2d pos = new Vector2d(c, r);
-                    String text;
-                    if (map.isOccupied(pos)) text = map.objectAt(pos).toString();
-                    else text = "";
-                    Label currL = new Label(text);
-                    GridPane.setHalignment(currL, HPos.CENTER);
-                    grid.add(currL, col++, row);
+                    if (map.isOccupied(pos)) {
+                        GuiElementBox e = new GuiElementBox((AbstractWorldMapElement) (map.objectAt(pos)));
+                        grid.add(e.vBox, col++, row);
+                    } else {
+                        Label currL = new Label("");
+                        GridPane.setHalignment(currL, HPos.CENTER);
+                        grid.add(currL, col++, row);
+                    }
 
                 }
                 ++row;
             }
 
+            grid.setGridLinesVisible(false);
             grid.setGridLinesVisible(true);
-            primaryStage.setScene(scene);
-            primaryStage.show();
+
         }
+
+
+        public void gridPaneChanged() {
+            Platform.runLater( () -> {
+                    drawGrid();
+                });
+        }
+
     }

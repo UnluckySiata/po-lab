@@ -24,6 +24,21 @@ public class Animal extends AbstractWorldMapElement {
         return this.position.equals(position);
     }
 
+    public String getImageName() {
+        String res = switch(this.orientation) {
+            case NORTH -> "up.png";
+            case SOUTH -> "down.png";
+            case EAST -> "right.png";
+            case WEST -> "left.png";
+            default -> null;
+        };
+        return res;
+    }
+
+    public String getLabelName() {
+        return "Z " + position.toString();
+    }
+
     public void move(MoveDirection direction) {
 
         int deltaX = 0;

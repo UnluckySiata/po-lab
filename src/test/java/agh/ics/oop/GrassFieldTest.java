@@ -16,7 +16,7 @@ class GrassFieldTest {
         MoveDirection[] directions = OptionsParser.parse(Arrays.asList(args));
         IWorldMap map = new GrassField(initialN);
         Vector2d[] positions = { new Vector2d(2,2), new Vector2d(3,4) };
-        IEngine engine = new SimulationEngine(directions, map, positions);
+        IEngine engine = new SimpleSimulationEngine(directions, map, positions);
         engine.run();
 
         Vector2d firstExpected = new Vector2d(2, -1);
@@ -49,7 +49,7 @@ class GrassFieldTest {
         MoveDirection[] directions = OptionsParser.parse(Arrays.asList(args));
         IWorldMap map = new GrassField(initialN);
         Vector2d[] positions = {new Vector2d(1, 1), new Vector2d(2, 1), new Vector2d(0, 0)};
-        IEngine engine = new SimulationEngine(directions, map, positions);
+        IEngine engine = new SimpleSimulationEngine(directions, map, positions);
         engine.run();
 
         Vector2d firstExpected = new Vector2d(1, 3);
